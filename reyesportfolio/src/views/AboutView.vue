@@ -38,6 +38,9 @@
 
         <!-- Contact Information -->
         <div class="info-card">
+          <div id="contact">
+            <!-- Your contact information -->
+          </div>
           <h2>Contact Information</h2>
 
           <div class="info-item">

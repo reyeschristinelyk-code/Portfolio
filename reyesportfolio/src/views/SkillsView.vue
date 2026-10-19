@@ -95,7 +95,7 @@ onMounted(async () => {
 .skills-section {
   min-height: 100vh;
   padding: 40px 24px;
-  background-color: #0b1120;
+  background-color: #879f78;
   color: #f9fafb;
 }
 
@@ -129,8 +129,8 @@ onMounted(async () => {
 .skill-card {
   padding: 24px;
   text-align: center;
-  background-color: #111827;
-  border: 1px solid #293244;
+  background-color: #5E5694;
+  border: 1px solid #525252;
   border-radius: 14px;
   transition: transform 0.2s, border-color 0.2s;
 }
@@ -183,17 +183,19 @@ onMounted(async () => {
   align-items: center;
   gap: 10px;
   padding: 16px;
-  background-color: #111827;
-  border: 1px solid #293244;
+  background-color: #b2dba1;
+  border: 1px solid #b9def0;
   border-radius: 10px;
+  color: #263326;
 }
 
 .skill-name {
   font-weight: 600;
+  color: #263326;
 }
 
 .skill-category {
-  color: #b2dba1;
+  color: #405640;
   font-size: 13px;
 }
 

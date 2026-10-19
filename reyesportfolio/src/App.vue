@@ -1,83 +1,76 @@
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import HomeView from './views/HomeView.vue'
+import AboutView from './views/AboutView.vue'
+import ProjectsView from './views/ProjectsView.vue'
+import SkillsView from './views/SkillsView.vue'
+import HobbiesView from './views/HobbyView.vue'
 </script>
 
 <template>
-  <div class="app-container">
-    <nav>
-      <div class="logo">Christine Lyka Reyes</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#hobbies">Hobbies</a>
+  </nav>
 
-      <div class="nav-links">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/projects">Projects</RouterLink>
-        <RouterLink to="/skills">Skills</RouterLink>
-        <RouterLink to="/hobbies">Hobbies</RouterLink>
-      </div>
-    </nav>
+  <main>
+    <div id="home">
+      <HomeView />
+    </div>
 
-    <main>
-      <RouterView />
-    </main>
-  </div>
+    <div id="about">
+      <AboutView />
+    </div>
+
+    <div id="projects">
+      <ProjectsView />
+    </div>
+
+    <div id="skills">
+      <SkillsView />
+    </div>
+
+    <div id="hobbies">
+      <HobbiesView />
+    </div>
+  </main>
 </template>
 
-<style scoped>
-.app-container {
-  min-height: 100vh;
+<style>
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
 }
 
 nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px 8%;
-  background-color: #f9fafb;
-}
-
-.logo {
-  color: #15803d;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 25px;
+  padding: 20px 8%;
+  background: #f9fafb;
 }
 
-.nav-links a {
+nav a {
   color: #333;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
 }
 
-.nav-links a:hover,
-.nav-links a.router-link-active {
+nav a:hover {
   color: #15803d;
-  font-weight: bold;
 }
 
-main {
-  padding: 0;
-}
-
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-links {
-    justify-content: center;
-    gap: 15px;
-  }
+main > div {
+  scroll-margin-top: 80px;
 }
 </style>

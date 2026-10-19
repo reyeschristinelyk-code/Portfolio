@@ -1,10 +1,9 @@
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <section class="home">
+  <section class="home" id="home">
     <div class="home-content">
       <p class="intro">WELCOME TO MY PORTFOLIO</p>
 
@@ -21,21 +20,22 @@ import { RouterLink } from 'vue-router'
       </p>
 
       <div class="home-buttons">
-        <RouterLink to="/about" class="btn primary">
+        <a href="#about" class="btn primary">
           About Me
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/projects" class="btn secondary">
+        <a href="#projects" class="btn secondary">
           View My Projects
-        </RouterLink>
+        </a>
       </div>
 
       <div class="quick-links">
-        <RouterLink to="/skills">My Skills</RouterLink>
+        <a href="#skills">My Skills</a>
         <span>•</span>
-        <RouterLink to="/hobbies">My Hobbies</RouterLink>
+        <a href="#hobbies">My Hobbies</a>
         <span>•</span>
-        <RouterLink to="/about">Contact Me</RouterLink>      </div>
+        <a href="#contact">Contact Me</a>
+      </div>
     </div>
 
     <div class="home-image">
@@ -57,6 +57,7 @@ import { RouterLink } from 'vue-router'
   padding: 60px 8%;
   background-color: #879f78;
   color: #f9fafb;
+  scroll-margin-top: 80px;
 }
 
 .home-content {
@@ -107,6 +108,7 @@ import { RouterLink } from 'vue-router'
   font-weight: 600;
   text-decoration: none;
   transition: 0.2s ease;
+  cursor: pointer;
 }
 
 .primary {
@@ -141,10 +143,13 @@ import { RouterLink } from 'vue-router'
 .quick-links a {
   color: #d1d5db;
   text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .quick-links a:hover {
   color: #b2dba1;
+  text-decoration: underline;
 }
 
 .home-image {
