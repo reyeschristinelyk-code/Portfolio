@@ -1,41 +1,19 @@
-
 import { createRouter, createWebHistory } from 'vue-router'
-
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
-import ProjectsView from '../views/ProjectsView.vue'
-import SkillsView from '../views/SkillsView.vue'
-import HobbyView from '../views/HobbyView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: AboutView,
-    },
-    {
-      path: '/projects',
-      name: 'projects',
-      component: ProjectsView,
-    },
-    {
-      path: '/skills',
-      name: 'skills',
-      component: SkillsView,
-    },
-    {
-      path: '/hobbies',
-      name: 'hobbies',
-      component: HobbyView,
-    },
+    { path: '/', name: 'home', component: HomeView },
+    { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') },
+    { path: '/skills', name: 'skills', component: () => import('../views/SkillsView.vue') },
+    { path: '/projects', name: 'projects', component: () => import('../views/ProjectsView.vue') },
+    { path: '/hobbies', name: 'hobbies', component: () => import('../views/HobbyView.vue') },
   ],
+  scrollBehavior(to) {
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
+    return { top: 0 }
+  },
 })
 
 export default router

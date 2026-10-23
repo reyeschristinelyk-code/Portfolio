@@ -14,18 +14,42 @@ const loading = ref(true)
 const personalSkills = [
   {
     name: 'Fast Learner',
-    description: 'Quick to learn new skills, tools, and technologies.',
-    image: '/images/fast-learning.png',
+    description: 'Quick to learn new tools, concepts, and technologies.',
   },
   {
     name: 'Leadership',
-    description: 'Able to guide a team and work toward shared goals.',
-    image: '/images/leadership.png',
+    description: 'Able to guide a team and work with others to achieve a goal.',
   },
   {
-    name: 'Working Under Pressure',
-    description: 'Can stay focused and complete tasks under pressure.',
-    image: '/images/under-pressure.png',
+    name: 'Adaptability',
+    description: 'Can adjust to new situations, challenges, and responsibilities.',
+  },
+  {
+    name: 'Time Management',
+    description: 'Able to organize tasks and manage time to meet deadlines.',
+  },
+  {
+    name: 'Perseverance',
+    description: 'Willing to keep learning and solving problems despite challenges.',
+  },
+]
+
+const databaseSkill = [
+  {
+    name: 'Database Management',
+    tools: 'MySQL, SQLite, PostgreSQL',
+  },
+  {
+    name: 'API Testing',
+    tools: 'Hoppscotch, HTTP methods, API request and response handling',
+  },
+  {
+    name: 'Embedded Systems',
+    tools: 'Arduino, PIC microcontrollers, MPLAB X IDE',
+  },
+  {
+    name: 'Web Development',
+    tools: 'HTML, CSS, Vue.js, TypeScript, Django REST Framework',
   },
 ]
 
@@ -34,10 +58,12 @@ onMounted(async () => {
     const response = await fetch('http://127.0.0.1:8000/api/skills/')
 
     if (!response.ok) {
-      throw new Error('Failed to load skills')
+      throw new Error('Failed to fetch skills from the server.')
     }
 
-    skills.value = await response.json()
+    const data = await response.json()
+
+    skills.value = Array.isArray(data) ? data : data.results ?? []
   } catch (error) {
     console.error('Error loading skills:', error)
   } finally {
@@ -47,165 +73,190 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="skills-section">
-    <h1>My Skills</h1>
-    <p class="subtitle">
-      Skills and qualities that help me learn, work, and grow.
-    </p>
-
-    <!-- Personal Skills with Pictures -->
-    <div class="personal-skills">
-      <article
-          v-for="skill in personalSkills"
-          :key="skill.name"
-          class="skill-card"
-      >
-        <img :src="skill.image" :alt="skill.name" />
-
-        <h2>{{ skill.name }}</h2>
-        <p>{{ skill.description }}</p>
-      </article>
-    </div>
-
-    <!-- Skills Loaded from Django -->
-    <div class="technical-skills">
-      <h2>Technical Skills</h2>
-
-      <p v-if="loading">Loading skills...</p>
-
-      <p v-else-if="skills.length === 0">
-        No technical skills available yet.
+  <main class="skills-page">
+    <section class="skills-section">
+      <h1>My Skills</h1>
+      <p class="section-description">
+        Here are the personal and technical skills I have developed through
+        my studies, projects, and experiences.
       </p>
 
-      <div v-else class="skill-list">
-        <div
-            v-for="skill in skills"
-            :key="skill.id"
-            class="skill-item"
-        >
-          <span class="skill-name">{{ skill.name }}</span>
-          <span class="skill-category">{{ skill.category }}</span>
+      <!-- Personal Skills -->
+      <div class="personal-skills">
+        <h2>Personal Skills</h2>
+
+        <div class="skill-list">
+          <div
+              v-for="skill in personalSkills"
+              :key="skill.name"
+              class="skill-item"
+          >
+            <div class="skill-details">
+              <span class="skill-name">{{ skill.name }}</span>
+              <p class="skill-description">
+                {{ skill.description }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+
+      <!-- Technical Skills -->
+      <div class="technical-skills">
+        <h2>Technical Skills</h2>
+
+        <p v-if="loading" class="status-message">
+          Loading technical skills...
+        </p>
+
+        <div class="skill-list">
+          <!-- Skills loaded from Django -->
+          <div
+              v-for="skill in skills"
+              :key="skill.id"
+              class="skill-item"
+          >
+            <div class="skill-details">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-category">{{ skill.category }}</span>
+            </div>
+          </div>
+
+          <!-- Locally defined technical skills -->
+          <div
+              v-for="skill in databaseSkill"
+              :key="skill.name"
+              class="skill-item"
+          >
+            <div class="skill-details">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="database-tools">{{ skill.tools }}</span>
+            </div>
+
+          </div>
+        </div>
+
+        <p
+            v-if="!loading && skills.length === 0"
+            class="empty-message"
+        >
+          Showing locally defined skills. No additional skills were loaded
+          from Django.
+        </p>
+      </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>
-.skills-section {
+.skills-page {
   min-height: 100vh;
-  padding: 40px 24px;
   background-color: #879f78;
-  color: #f9fafb;
+  padding: 110px 30px 50px;
+  color: #263b25;
 }
 
-.skills-section > h1,
-.subtitle,
-.technical-skills {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+.skills-section {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.skills-section > h1 {
-  font-size: 30px;
-  font-weight: 700;
-}
-
-.subtitle {
-  margin-top: 8px;
-  margin-bottom: 30px;
-  color: #cbd5e1;
-}
-
-.personal-skills {
-  max-width: 1000px;
-  margin: 0 auto 45px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.skill-card {
-  padding: 24px;
+h1 {
   text-align: center;
-  background-color: #5E5694;
-  border: 1px solid #525252;
-  border-radius: 14px;
-  transition: transform 0.2s, border-color 0.2s;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  color: #263b25;
 }
 
-.skill-card:hover {
-  transform: translateY(-5px);
-  border-color: #b2dba1;
+.section-description {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
 }
 
-.skill-card img {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 18px;
-  object-fit: contain;
-}
-
-.skill-card h2 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #b2dba1;
-}
-
-.skill-card p {
-  color: #cbd5e1;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.technical-skills {
-  margin-top: 20px;
-}
-
-.technical-skills h2 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
+h2 {
+  font-size: 1.7rem;
+  margin: 30px 0 20px;
+  color: #263b25;
 }
 
 .skill-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 20px;
 }
 
 .skill-item {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 16px;
   background-color: #b2dba1;
-  border: 1px solid #b9def0;
-  border-radius: 10px;
-  color: #263326;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 4px 10px rgba(38, 59, 37, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 7px 15px rgba(38, 59, 37, 0.18);
+}
+
+.skill-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .skill-name {
-  font-weight: 600;
-  color: #263326;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #263b25;
 }
 
 .skill-category {
-  color: #405640;
-  font-size: 13px;
+  display: inline-block;
+  width: fit-content;
+  margin-top: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #879f78;
+  color: #ffffff;
+  font-size: 0.8rem;
+}
+
+.skill-description,
+.database-tools {
+  margin: 0;
+  line-height: 1.6;
+  color: #354b32;
+  overflow-wrap: anywhere;
+}
+
+.status-message,
+.empty-message {
+  text-align: center;
+  margin: 20px 0;
+  line-height: 1.5;
 }
 
 @media (max-width: 700px) {
-  .personal-skills {
-    grid-template-columns: 1fr;
+  .skills-page {
+    padding: 100px 18px 35px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
   }
 
   .skill-list {
     grid-template-columns: 1fr;
+  }
+
+  .skill-item {
+    padding: 18px;
   }
 }
 </style>
